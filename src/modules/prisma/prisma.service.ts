@@ -22,4 +22,13 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
     }
   }
 
+  async isHealthy() {
+    try {
+      await this.$queryRaw`SELECT 1`;
+      return true;
+    } catch (error) {
+      this.logger.error("Database is not healthy", error);
+      return false;
+    }
+  }
 }
