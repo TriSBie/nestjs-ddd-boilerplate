@@ -106,31 +106,44 @@ Nest is [MIT licensed](LICENSE).
 6. Add your custom sender name to the `.env` file into the `NEXT_PUBLIC_SENDGRID_SENDER_NAME` field (fallback is Cal.com)
 
 # Folder Structure
+
 The folder structure is organized as DDD (Domain Driven Design) with modules.
 [Domain]: Contains the business logic and entities of the application.
+
 > represents the ubiquitous language of your system — it defines what “things” exist and what rules apply.
->> ✅ Rules:
-+ No NestJS decorators (@Injectable, @Controller)
-+ No Prisma imports
-+ No framework code
-+ This is pure TypeScript, framework-agnostic.
+>
+> > ✅ Rules:
+
+-   No NestJS decorators (@Injectable, @Controller)
+-   No Prisma imports
+-   No framework code
+-   This is pure TypeScript, framework-agnostic.
 
 [Applications]: Coordinates domain logic to perform a business action
-> Each method here represents a use case (e.g. RegisterUser, DeleteUser).
-> Contains:
-+ Use case services (user.service.ts)
-+ Command handlers / query handlers (if using CQRS)
-+ Orchestration logic: validation, combining multiple domain actions
 
-[Infrastructure]: Contains the infrastructure-related code, such as database configuration and external services.
-> Implements all interfaces defined in the domain/ layer.
-> Contains:
-+ Prisma repositories (e.g. UserPrismaRepository)
-+ DB adapters, external service clients
-+ Configurations, caching
+> > ✅ Rules:
+
+-   Each method here represents a use case (e.g. RegisterUser, DeleteUser).
+    > > ✅ Contains:
+-   Use case services (user.service.ts)
+-   Command handlers / query handlers (if using CQRS)
+-   Orchestration logic: validation, combining multiple domain actions
+
+[Infrastructure]: Contains the infrastructure-related code,
+
+> > ✅ Rules:
+
+-   Implements all interfaces defined in the domain/ layer.
+-   Contains:
+-   Mapper (e.g. UserMapper)
+-   Prisma repositories (e.g. UserPrismaRepository)
+-   DB adapters, external service clients
+-   Configurations, caching
 
 [Presentation]: Contains the presentation layer, such as controllers and GraphQL resolvers.
+
 > Contains:
-+ controllers/ (REST endpoints, GraphQL resolvers, WebSocket gateways)
-+ dto/ (input validation)
-+ response transformers (optional)
+
+-   controllers/ (REST endpoints, GraphQL resolvers, WebSocket gateways)
+-   dto/ (input validation)
+-   response transformers (optional)
