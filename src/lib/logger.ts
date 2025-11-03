@@ -26,14 +26,14 @@ export const loggerConfig = (): LoggerOptions => {
   const transports: Transport[] = [];
   transports.push(new Transports.Console());
 
-//   if (!!process.env.AXIOM_TOKEN && !!process.env.AXIOM_DATASET) {
-//     transports.push(
-//       new AxiomTransport({
-//         token: process.env.AXIOM_TOKEN,
-//         dataset: process.env.AXIOM_DATASET,
-//       })
-//     );
-//   }
+  //   if (!!process.env.AXIOM_TOKEN && !!process.env.AXIOM_DATASET) {
+  //     transports.push(
+  //       new AxiomTransport({
+  //         token: process.env.AXIOM_TOKEN,
+  //         dataset: process.env.AXIOM_DATASET,
+  //       })
+  //     );
+  //   }
 
   return {
     levels: logLevels,

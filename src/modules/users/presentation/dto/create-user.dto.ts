@@ -14,12 +14,12 @@ export class CreateUserDto {
   @ApiProperty({ required: false, example: 'John' })
   @IsOptional()
   @IsString()
-  firstName?: string;
+  firstName: string;
 
   @ApiProperty({ required: false, example: 'Doe' })
   @IsOptional()
   @IsString()
-  lastName?: string;
+  lastName: string;
 
   @ApiProperty({ required: false, example: 'https://cdn.app/avatar.jpg' })
   @IsOptional()

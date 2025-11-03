@@ -1,12 +1,17 @@
 import { Injectable } from '@nestjs/common';
-import { DatabaseService } from './database.service';
-import { PaginatedResult, QueryBuilderOptions } from '../interfaces/query-builder.interface';
+import { PrismaService } from './prisma.service';
+import {
+    PaginatedResult,
+    QueryBuilderOptions,
+} from '../interfaces/query-builder.interface';
 
 @Injectable()
 export class QueryBuilderService {
-    constructor(private readonly databaseService: DatabaseService) {}
+    constructor(private readonly databaseService: PrismaService) {}
 
-    async findManyWithPagination<T>(options: QueryBuilderOptions): Promise<PaginatedResult<T>> {
+    async findManyWithPagination<T>(
+        options: QueryBuilderOptions
+    ): Promise<PaginatedResult<T>> {
         const {
             model,
             dto,
@@ -24,7 +29,9 @@ export class QueryBuilderService {
 
         const where = this.buildWhereClause(dto, searchFields, customFilters);
         const include = this.buildIncludeClause(relations);
-        const modelAccessor = this.databaseService[model as keyof DatabaseService] as any;
+        const modelAccessor = this.databaseService[
+            model as keyof PrismaService
+        ] as any;
 
         const [items, total] = await Promise.all([
             modelAccessor.findMany({
@@ -55,7 +62,7 @@ export class QueryBuilderService {
     private buildWhereClause(
         dto: any,
         searchFields: string[],
-        customFilters: Record<string, any>,
+        customFilters: Record<string, any>
     ): any {
         const where: any = { deletedAt: null };
 
@@ -67,7 +74,9 @@ export class QueryBuilderService {
 
         for (const [key, value] of Object.entries(dto)) {
             if (
-                ['page', 'limit', 'search', 'sortBy', 'sortOrder'].includes(key) ||
+                ['page', 'limit', 'search', 'sortBy', 'sortOrder'].includes(
+                    key
+                ) ||
                 value === undefined ||
                 value === null
             )
@@ -112,7 +121,9 @@ export class QueryBuilderService {
     }
 
     async getCount(model: string, filters?: any): Promise<number> {
-        const modelAccessor = this.databaseService[model as keyof DatabaseService] as any;
+        const modelAccessor = this.databaseService[
+            model as keyof PrismaService
+        ] as any;
         return modelAccessor.count({ where: { deletedAt: null, ...filters } });
     }
 }

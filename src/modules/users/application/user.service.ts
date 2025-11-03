@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
-import { User } from '../domain/user.entity';
+import { UserEntity } from '../domain/user.entity';
 import { IUserRepository } from '../domain/user.repository';
 import { CreateUserDto, UpdateUserDto, UserResponseDto } from '../presentation/dto';
 
@@ -17,17 +17,7 @@ export class UserService {
     }
 
     // Domain entity creation
-    const user = new User(
-      crypto.randomUUID(),
-      dto.email,
-      dto.password,
-      dto.firstName,
-      dto.lastName,
-      dto.avatar,
-      false, // isVerified default
-      dto.phoneNumber,
-      dto.role ?? 'USER',
-    );
+    const user = new UserEntity()
 
     const saved = await this.users.create(user);
     return saved;
@@ -59,18 +49,8 @@ export class UserService {
     if (!user) throw new NotFoundException('User not found');
 
     // Update domain properties
-    const updated = new User(
-      user.id,
-      user.email,
-      user['password'],
-      dto.firstName ?? user['firstName'],
-      dto.lastName ?? user['lastName'],
-      dto.avatar ?? user['avatar'],
-      user['isVerified'],
-      dto.phoneNumber ?? user['phoneNumber'],
-      user['role'],
-      user.createdAt,
-      new Date(),
+    const updated = new UserEntity(
+
     );
 
     const saved = await this.users.update(updated);

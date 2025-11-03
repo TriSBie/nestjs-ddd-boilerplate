@@ -2,7 +2,7 @@ import { getEnv } from "../env";
 
 import type { AppConfig } from "./type";
 
-const loadConfig = (): AppConfig => {
+export const appConfig = (): AppConfig => {
   return {
     env: {
       type: getEnv("NODE_ENV", "development"),
@@ -18,18 +18,26 @@ const loadConfig = (): AppConfig => {
     },
     db: {
       url: getEnv("DATABASE_URL"),
-      redisUrl: getEnv("REDIS_URL"),
+      // redisUrl: getEnv("REDIS_URL"),
     },
-    next: {
-      authSecret: getEnv("NEXTAUTH_SECRET"),
-    },
-    app: {
-      baseUrl: getEnv("WEB_APP_URL", "https://app.cal.com"),
+    auth: {
+      accessToken: {
+        secret: getEnv("JWT_SECRET"),
+        expiresIn: `${getEnv("JWT_EXPIRATION_TIME", 3600)}s`,
+      },  
+      refreshToken: {
+        secret: getEnv("JWT_REFRESH_SECRET"),
+        expiresIn: `${getEnv("JWT_REFRESH_EXPIRATION_TIME", 604800)}s`, 
+      },
     },
     hash: {
       saltRounds: Number(getEnv("HASH_SALT_ROUNDS", 12)),
     },
+    // next: {
+    //   authSecret: getEnv("NEXTAUTH_SECRET"),
+    // },
+    // app: {
+    //   baseUrl: getEnv("WEB_APP_URL", "https://app.cal.com"),
+    // },
   };
 };
-
-export default loadConfig;

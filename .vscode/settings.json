@@ -1,0 +1,36 @@
+{
+    // Editor appearance and behavior
+    "editor.fontSize": 14, // Adjusts the font size of the editor text
+    "editor.fontFamily": "Fira Code, Consolas, monospace", // Sets the font for the editor
+    "editor.tabSize": 2, // Defines the number of spaces for a tab
+    "editor.wordWrap": "on", // Enables or disables word wrapping in the editor
+    "editor.minimap.enabled": false, // Controls the visibility of the minimap
+    "editor.formatOnSave": true, // Automatically formats the code when saving
+    "editor.defaultFormatter": "esbenp.prettier-vscode", // Sets the default formatter for files
+
+    // Integrated terminal settings
+    "terminal.integrated.fontSize": 12, // Adjusts the font size of the integrated terminal
+
+    // File handling
+    "files.autoSave": "afterDelay", // Automatically saves files after a delay
+    "files.associations": {
+        // Associates file extensions with specific languages
+        "*.env": "dotenv",
+        "*.js": "javascriptreact"
+    },
+
+    // Language-specific settings (example for JavaScript/TypeScript)
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+
+    // Customizing specific UI elements (e.g., comment color)
+    "workbench.colorCustomizations": {
+        "editor.tokenColorCustomizations": {
+            "comments": "#6A9955" // Changes the color of comments
+        }
+    }
+}

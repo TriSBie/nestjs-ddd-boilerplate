@@ -1,29 +1,35 @@
-import { Injectable, CanActivate, ExecutionContext, ForbiddenException } from '@nestjs/common';
+import {
+    Injectable,
+    CanActivate,
+    ExecutionContext,
+    ForbiddenException,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { Role } from '@prisma/client';
-import { ROLES_DECORATOR_KEY, PUBLIC_ROUTE_KEY } from '../constants/request.constant';
+import { Role } from 'prismaGenerated/prisma';
+import { PUBLIC_ROUTE_KEY } from 'src/lib/constants';
+import { ROLES_DECORATOR_KEY } from 'src/lib/constants';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
-    constructor(private readonly reflector: Reflector) { }
+    constructor(private readonly reflector: Reflector) {}
 
     canActivate(context: ExecutionContext): boolean {
         // Check if route is public
         // Get the final value of the PUBLIC_ROUTE_KEY from the reflector
-        const isPublic = this.reflector.getAllAndOverride<boolean>(PUBLIC_ROUTE_KEY, [
-            context.getHandler(),
-            context.getClass(),
-        ]);
+        const isPublic = this.reflector.getAllAndOverride<boolean>(
+            PUBLIC_ROUTE_KEY,
+            [context.getHandler(), context.getClass()]
+        );
 
         if (isPublic) {
             return true;
         }
 
         // Get required roles
-        const requiredRoles = this.reflector.getAllAndOverride<Role[]>(ROLES_DECORATOR_KEY, [
-            context.getHandler(),
-            context.getClass(),
-        ]);
+        const requiredRoles = this.reflector.getAllAndOverride<Role[]>(
+            ROLES_DECORATOR_KEY,
+            [context.getHandler(), context.getClass()]
+        );
 
         if (!requiredRoles || requiredRoles.length === 0) {
             return true;
