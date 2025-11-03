@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { ValidateNested } from 'class-validator';
-import { UserEntity } from 'src/modules/users/domain/user.entity';
+import { UserResponseDto } from 'src/modules/users/presentation/dto';
 
 export class AuthRefreshResponseDto {
     @ApiProperty({
@@ -20,9 +20,9 @@ export class AuthRefreshResponseDto {
 export class AuthResponseDto extends AuthRefreshResponseDto {
     @ApiProperty({
         description: 'Authenticated user information',
-        type: UserEntity
+        type: UserResponseDto,
     })
-    @Type(() => UserEntity)
+    @Type(() => UserResponseDto)
     @ValidateNested()
-    user!: UserEntity;
+    user!: UserResponseDto;
 }

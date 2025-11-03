@@ -147,3 +147,46 @@ The folder structure is organized as DDD (Domain Driven Design) with modules.
 -   controllers/ (REST endpoints, GraphQL resolvers, WebSocket gateways)
 -   dto/ (input validation)
 -   response transformers (optional)
+
+# - Can nhac -
+
+Prisma migration ko oke lam
+TypeORM -> migration
+
+#Feature Flags - GrowthBook
+#Deployment: su dung dockerfile -> can nhac thue vps.
+#Error Tracking: Grafana (DevOps).
+#Compliance: apply theo Sing.
+#Websocket (realtime - delay):
+
+-   Tuy vao do tre: Pub/Sub or Socket.io/ Websocket.
+    #Cronjob:
+-   simple: Lam/tao 1 instance worker dung chung src. -> phuc tap CICD.
+    Thay vi su dung RabbitMQ/Kafa -> su dung Redis (BullMQ).
+
+#CI/CD:
+
+-   Github Actions (ho tro webhook).
+-   Thong bao thang GG-chat (Group chat) -> lay webhook GG Chat.
+-   Apply test o phan staging/production ( run module bi thay doi thay vi run toan bo) - Break nho ra.
+
+#Testing:
+
+-   function tinh toan, service (cover test)
+-   Apply test coverage.
+
+*   Jest
+
+#Best practices:
+
+-   Follow pattern cua Nestjs.
+-   Performance: query ko toi uu, N + 1 problem.
+-   Security: xu ly error, xu ly exception.
+-   Data consistency: insert, update quan trong xu ly transaction, xu ly rollback.
+-   Code formatting: prettier, eslint, etc.
+-   Error handling: xu ly error, xu ly exception. Tra response code dam bao quy tac.
+-   Su dung bluebird: https://www.npmjs.com/package/bluebird. => concurrency.
+-   Rxjs: Observable.
+-   Define index trong db (can nhac truoc khi danh) => ANALYZE de xem.
+-   Apply Pattern: Khong import thang -> Su dung cqrs pattern.
+-   Tan dung lifecycle triet de.

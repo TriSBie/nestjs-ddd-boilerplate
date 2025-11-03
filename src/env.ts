@@ -26,6 +26,10 @@ export type Environment = {
     JWT_REFRESH_EXPIRATION_TIME: number;
     JWT_REFRESH_SECRET: string;
     JWT_SECRET: string;
+    // GrowthBook
+    GROWTHBOOK_API_HOST: string; // e.g. https://cdn.growthbook.io
+    GROWTHBOOK_CLIENT_KEY: string; // public client key from GrowthBook
+    GROWTHBOOK_REFRESH_INTERVAL_MS?: number; // optional refresh interval
 };
 
 export const getEnv = <K extends keyof Environment>(

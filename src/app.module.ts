@@ -6,6 +6,7 @@ import { JsonBodyMiddleware } from './middleware/json.body.middleware';
 import { appConfig } from './config/app';
 import { APP_FILTER } from '@nestjs/core';
 import { AppController } from './app.controller';
+import { FeatureFlagsModule } from './modules/feature-flags/feature-flags.module';
 import { CommonModule } from './modules/common/common.module';
 
 @Module({
@@ -16,6 +17,7 @@ import { CommonModule } from './modules/common/common.module';
             load: [appConfig],
             expandVariables: true,
         }),
+        FeatureFlagsModule.forRoot(),
         // UsersModule,
         // AuthModule
         CommonModule,

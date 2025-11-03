@@ -23,7 +23,7 @@ async function run() {
     bootstrap(app);
     const port = app.get(ConfigService<AppConfig, true>).get("api.port", { infer: true });
 
-    // Swagger Module Configuration
+    // TODO: Swagger Module Configuration
     const config = new DocumentBuilder().setTitle("Hopper Solution API").build();
     const document = SwaggerModule.createDocument(app, config);
     SwaggerModule.setup("docs", app, document);
