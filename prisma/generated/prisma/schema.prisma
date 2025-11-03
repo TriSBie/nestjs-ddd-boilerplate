@@ -1,9 +1,7 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-  provider = "prisma-client-js"
-  output   = "generated/prisma"
+  provider   = "prisma-client-js"
+  output     = "generated/prisma"
+  engineType = "client"
 }
 
 datasource db {
@@ -20,7 +18,7 @@ model User {
   avatar      String?   @map("avatar")
   isVerified  Boolean   @default(false) @map("is_verified")
   phoneNumber String?   @map("phone_number")
-  role        Role
+  role        Role      @default(USER)
   createdAt   DateTime  @default(now()) @map("created_at")
   updatedAt   DateTime  @updatedAt @map("updated_at")
   deletedAt   DateTime? @map("deleted_at")
