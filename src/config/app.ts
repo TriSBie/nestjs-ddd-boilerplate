@@ -14,7 +14,6 @@ export const appConfig = (): AppConfig => {
         ? `:${Number(getEnv("API_PORT", "5555"))}`
         : ""
         }/v2`,
-      keyPrefix: getEnv("API_KEY_PREFIX", "cal_"),
     },
     db: {
       url: getEnv("DATABASE_URL"),

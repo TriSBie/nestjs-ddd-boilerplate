@@ -6,7 +6,6 @@ export type AppConfig = {
         port: number;
         path: string;
         url: string;
-        keyPrefix: string;
     };
     db: {
         url: string;
