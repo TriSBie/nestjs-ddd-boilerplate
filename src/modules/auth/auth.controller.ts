@@ -1,16 +1,33 @@
-import { Controller, Post, UseGuards, Request } from '@nestjs/common';
-
-import { AuthService } from './shared/auth.service';
+import { Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { LocalAuthGuard } from './shared/local-auth.guard';
-import { Token } from './shared/token';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { SwaggerResponse } from 'src/lib/response/api-response.dto';
+import { AuthResponseDto } from './dtos/auth.response.dto';
+import { AuthUser } from './decorators/auth-user.decorator';
+import { UserEntity } from '../users/domain/user.entity';
 
+@ApiTags('auth.public')
 @Controller('auth')
 export class AuthController {
-    constructor(private authService: AuthService) {}
+    constructor() { }
 
+    @ApiOperation({
+        summary: 'User login',
+        description: 'Authenticate user with email and password',
+    })
+    @ApiResponse({
+        status: 201,
+        description: 'User successfully authenticated',
+        type: SwaggerResponse(AuthResponseDto),
+    })
     @UseGuards(LocalAuthGuard)
     @Post()
-    async login(@Request() req: any): Promise<Token> {
-        return this.authService.login(req.user);
+    async login(@AuthUser() user: UserEntity) {
+        return user;
+    }
+
+
+    async signUp(@Body() signUpDto: SignUpDto) {
+        return this.authService.signUp(signUpDto);
     }
 }

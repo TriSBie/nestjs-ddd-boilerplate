@@ -12,7 +12,8 @@ import { LocalStrategy } from './shared/local.strategy';
     imports: [
         ConfigModule,
         UsersModule,
-        PassportModule,
+        // session false is used to prevent session-based authentication
+        PassportModule.register({ defaultStrategy: 'jwt', session: false }),
         JwtModule.registerAsync({
             imports: [ConfigModule],
             inject: [ConfigService],
@@ -27,4 +28,4 @@ import { LocalStrategy } from './shared/local.strategy';
     controllers: [AuthController],
     providers: [AuthService, LocalStrategy, JwtStrategy],
 })
-export class AuthModule {}
+export class AuthModule { }

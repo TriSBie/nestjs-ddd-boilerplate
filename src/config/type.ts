@@ -18,4 +18,7 @@ export type AppConfig = {
   app: {
     baseUrl: string;
   };
+  hash: {
+    saltRounds: number;
+  };
 };

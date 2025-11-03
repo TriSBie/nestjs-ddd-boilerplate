@@ -26,6 +26,9 @@ const loadConfig = (): AppConfig => {
     app: {
       baseUrl: getEnv("WEB_APP_URL", "https://app.cal.com"),
     },
+    hash: {
+      saltRounds: Number(getEnv("HASH_SALT_ROUNDS", 12)),
+    },
   };
 };
 
