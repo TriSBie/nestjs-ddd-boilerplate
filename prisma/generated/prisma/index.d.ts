@@ -3,7 +3,7 @@
  * Client
 **/
 
-import * as runtime from './runtime/library.js';
+import * as runtime from './runtime/client.js';
 import $Types = runtime.Types // general types
 import $Public = runtime.Types.Public
 import $Utils = runtime.Types.Utils
@@ -2030,7 +2030,7 @@ export namespace Prisma {
     avatar?: string | null
     isVerified?: boolean
     phoneNumber?: string | null
-    role: $Enums.Role
+    role?: $Enums.Role
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
@@ -2045,7 +2045,7 @@ export namespace Prisma {
     avatar?: string | null
     isVerified?: boolean
     phoneNumber?: string | null
-    role: $Enums.Role
+    role?: $Enums.Role
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null
@@ -2090,7 +2090,7 @@ export namespace Prisma {
     avatar?: string | null
     isVerified?: boolean
     phoneNumber?: string | null
-    role: $Enums.Role
+    role?: $Enums.Role
     createdAt?: Date | string
     updatedAt?: Date | string
     deletedAt?: Date | string | null

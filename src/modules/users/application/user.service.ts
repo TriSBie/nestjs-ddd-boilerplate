@@ -1,8 +1,4 @@
-import {
-    Injectable,
-    NotFoundException,
-    BadRequestException,
-} from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { IUserRepository } from '../domain/user.repository';
 import {
     CreateUserDto,
@@ -16,51 +12,38 @@ export class UserAuthService {
     constructor(private readonly users: IUserRepository) {}
 
     /** Create a new user */
-    async create(dto: CreateUserDto): Promise<UserResponseDto> {
+    async createUser(dto: CreateUserDto): Promise<UserResponseDto> {
         // Check if user already exists
         const existing = await this.users.findByEmail(dto.email);
         if (existing) {
             throw new BadRequestException('Email already exists');
         }
 
-        const saved = await this.users.create(dto);
-        return saved;
+        return await this.users.create(dto);
     }
 
     /** Find all users */
-    async findAll(): Promise<UserResponseDto[]> {
-        const result = await this.users.findAll();
-        return result.map(user => user);
+    async findAllUsers(): Promise<UserResponseDto[]> {
+        return await this.users.findAll();
     }
 
     /** Find single user by id */
-    async findOne(id: string): Promise<UserResponseDto> {
-        const user = await this.users.findById(id);
-        if (!user) throw new NotFoundException('User not found');
-        return user;
+    async findUserById(id: string): Promise<UserResponseDto | null> {
+        return await this.users.findById(id);
     }
 
     /** Find single user by email */
-    async findByEmail(email: string): Promise<UserResponseDto> {
-        const user = await this.users.findByEmail(email);
-        if (!user) throw new NotFoundException('User not found');
-        return user;
+    async findUserByEmail(email: string): Promise<UserResponseDto | null> {
+        return await this.users.findByEmail(email);
     }
 
     /** Update user profile */
-    async update(id: string, dto: UpdateUserDto): Promise<UserResponseDto> {
-        const user = await this.users.findById(id);
-        if (!user) throw new NotFoundException('User not found');
-
-        const saved = await this.users.update(dto);
-        return saved;
+    async updateUser(id: string, dto: UpdateUserDto): Promise<UserResponseDto> {
+        return await this.users.update(id, dto);
     }
 
     /** Soft delete user (set deletedAt) */
-    async remove(id: string): Promise<void> {
-        const user = await this.users.findById(id);
-        if (!user) throw new NotFoundException('User not found');
-
-        await this.users.softDelete(id);
+    async removeUser(id: string): Promise<void> {
+        return await this.users.softDelete(id);
     }
 }

@@ -26,7 +26,7 @@ const {
   Public,
   getRuntime,
   createParam,
-} = require('./runtime/wasm-engine-edge.js')
+} = require('./runtime/wasm-compiler-edge.js')
 
 
 const Prisma = {}
@@ -149,7 +149,7 @@ const config = {
       "fromEnvVar": null
     },
     "config": {
-      "engineType": "library"
+      "engineType": "client"
     },
     "binaryTargets": [
       {
@@ -163,7 +163,7 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../../.env",
+    "rootEnvPath": null,
     "schemaEnvPath": "../../../.env"
   },
   "relativePath": "../..",
@@ -173,6 +173,7 @@ const config = {
     "db"
   ],
   "activeProvider": "mysql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -181,23 +182,23 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"generated/prisma\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id          String    @id @default(uuid()) @map(\"id\")\n  email       String    @unique @map(\"email\")\n  password    String?   @map(\"password\")\n  firstName   String?   @map(\"first_name\")\n  lastName    String?   @map(\"last_name\")\n  avatar      String?   @map(\"avatar\")\n  isVerified  Boolean   @default(false) @map(\"is_verified\")\n  phoneNumber String?   @map(\"phone_number\")\n  role        Role\n  createdAt   DateTime  @default(now()) @map(\"created_at\")\n  updatedAt   DateTime  @updatedAt @map(\"updated_at\")\n  deletedAt   DateTime? @map(\"deleted_at\")\n\n  @@map(\"users\")\n}\n\nenum Role {\n  ADMIN @map(\"ADMIN\")\n  USER  @map(\"USER\")\n}\n",
-  "inlineSchemaHash": "9e99968f7f1a8a9ceca5c54aa2cb0d84a1691ec1a5f455107e9b9346ba496c76",
+  "inlineSchema": "generator client {\n  provider   = \"prisma-client-js\"\n  output     = \"generated/prisma\"\n  engineType = \"client\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id          String    @id @default(uuid()) @map(\"id\")\n  email       String    @unique @map(\"email\")\n  password    String?   @map(\"password\")\n  firstName   String?   @map(\"first_name\")\n  lastName    String?   @map(\"last_name\")\n  avatar      String?   @map(\"avatar\")\n  isVerified  Boolean   @default(false) @map(\"is_verified\")\n  phoneNumber String?   @map(\"phone_number\")\n  role        Role      @default(USER)\n  createdAt   DateTime  @default(now()) @map(\"created_at\")\n  updatedAt   DateTime  @updatedAt @map(\"updated_at\")\n  deletedAt   DateTime? @map(\"deleted_at\")\n\n  @@map(\"users\")\n}\n\nenum Role {\n  ADMIN @map(\"ADMIN\")\n  USER  @map(\"USER\")\n}\n",
+  "inlineSchemaHash": "e2398aaae26c755ef085419d4cfef8395b2f81bea56c81d0a11114674fd0b4be",
   "copyEngine": true
 }
 config.dirname = '/'
 
 config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"id\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"email\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"password\"},{\"name\":\"firstName\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"first_name\"},{\"name\":\"lastName\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"last_name\"},{\"name\":\"avatar\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"avatar\"},{\"name\":\"isVerified\",\"kind\":\"scalar\",\"type\":\"Boolean\",\"dbName\":\"is_verified\"},{\"name\":\"phoneNumber\",\"kind\":\"scalar\",\"type\":\"String\",\"dbName\":\"phone_number\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"created_at\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"updated_at\"},{\"name\":\"deletedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\",\"dbName\":\"deleted_at\"}],\"dbName\":\"users\"}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
-config.engineWasm = {
-  getRuntime: async () => require('./query_engine_bg.js'),
-  getQueryEngineWasmModule: async () => {
-    const loader = (await import('#wasm-engine-loader')).default
-    const engine = (await loader).default
-    return engine
+config.engineWasm = undefined
+config.compilerWasm = {
+  getRuntime: async () => require('./query_compiler_bg.js'),
+  getQueryCompilerWasmModule: async () => {
+    const loader = (await import('#wasm-compiler-loader')).default
+    const compiler = (await loader).default
+    return compiler
   }
 }
-config.compilerWasm = undefined
 
 config.injectableEdgeEnv = () => ({
   parsed: {
